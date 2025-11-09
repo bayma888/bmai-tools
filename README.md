@@ -1,6 +1,6 @@
 # bayma-cc
 
-白马 Claude Code 收集工具集合  
+北马🐴 Claude Code 收集工具集合  
 Bayma Claude Code Tools Collection
 
 ---
