@@ -415,6 +415,49 @@ dependencies = [
 ]
 
 [[package]]
+name = "bmai-tools"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "auto-launch",
+ "base64 0.22.1",
+ "chrono",
+ "dirs 5.0.1",
+ "futures",
+ "indexmap 2.11.4",
+ "log",
+ "objc2 0.5.2",
+ "objc2-app-kit 0.2.2",
+ "once_cell",
+ "regex",
+ "reqwest",
+ "rquickjs",
+ "rusqlite",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "serial_test",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-deep-link",
+ "tauri-plugin-dialog",
+ "tauri-plugin-log",
+ "tauri-plugin-opener",
+ "tauri-plugin-process",
+ "tauri-plugin-single-instance",
+ "tauri-plugin-store",
+ "tauri-plugin-updater",
+ "tempfile",
+ "thiserror 1.0.69",
+ "tokio",
+ "toml 0.8.2",
+ "toml_edit 0.22.27",
+ "url",
+ "winreg 0.52.0",
+ "zip 2.4.2",
+]
+
+[[package]]
 name = "borsh"
 version = "1.5.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -614,49 +657,6 @@ dependencies = [
  "jobserver",
  "libc",
  "shlex",
-]
-
-[[package]]
-name = "cc-switch"
-version = "3.7.1"
-dependencies = [
- "anyhow",
- "auto-launch",
- "base64 0.22.1",
- "chrono",
- "dirs 5.0.1",
- "futures",
- "indexmap 2.11.4",
- "log",
- "objc2 0.5.2",
- "objc2-app-kit 0.2.2",
- "once_cell",
- "regex",
- "reqwest",
- "rquickjs",
- "rusqlite",
- "serde",
- "serde_json",
- "serde_yaml",
- "serial_test",
- "tauri",
- "tauri-build",
- "tauri-plugin-deep-link",
- "tauri-plugin-dialog",
- "tauri-plugin-log",
- "tauri-plugin-opener",
- "tauri-plugin-process",
- "tauri-plugin-single-instance",
- "tauri-plugin-store",
- "tauri-plugin-updater",
- "tempfile",
- "thiserror 1.0.69",
- "tokio",
- "toml 0.8.2",
- "toml_edit 0.22.27",
- "url",
- "winreg 0.52.0",
- "zip 2.4.2",
 ]
 
 [[package]]

@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "CC Switch",
-    "description": "Claude Code・Codex・Gemini CLI のためのオールインワンアシスタント"
+    "title": "BMAI Tools",
+    "description": "AI開発ツール - オールインワンアシスタント"
   },
   "common": {
     "add": "追加",
@@ -169,7 +169,7 @@
     "windowBehavior": "ウィンドウ動作",
     "windowBehaviorHint": "最小化動作や Claude プラグイン連携を設定します。",
     "launchOnStartup": "起動時に自動実行",
-    "launchOnStartupDescription": "システム起動時に CC Switch を自動起動します",
+    "launchOnStartupDescription": "システム起動時に BMAI Tools を自動起動します",
     "autoLaunchFailed": "自動起動の設定に失敗しました",
     "minimizeToTray": "閉じるときトレイへ最小化",
     "minimizeToTrayDescription": "チェックすると閉じるボタンでトレイに隠し、オフならアプリを終了します。",
@@ -177,9 +177,9 @@
     "enableClaudePluginIntegrationDescription": "オンにすると VS Code の Claude Code 拡張のプロバイダーも同期します",
     "configDirectoryOverride": "設定ディレクトリの上書き（詳細）",
     "configDirectoryDescription": "WSL などで Claude Code や Codex を使う場合、ここで設定ディレクトリを WSL 側に合わせるとデータを揃えられます。",
-    "appConfigDir": "CC Switch 設定ディレクトリ",
-    "appConfigDirDescription": "CC Switch の保存場所をカスタマイズします（クラウド同期フォルダを指定すると設定を同期できます）",
-    "browsePlaceholderApp": "例: C:\\\\Users\\\\Administrator\\\\.cc-switch",
+    "appConfigDir": "BMAI Tools 設定ディレクトリ",
+    "appConfigDirDescription": "BMAI Tools の保存場所をカスタマイズします（クラウド同期フォルダを指定すると設定を同期できます）",
+    "browsePlaceholderApp": "例: C:\\\\Users\\\\Administrator\\.bmai-tools",
     "claudeConfigDir": "Claude Code 設定ディレクトリ",
     "claudeConfigDirDescription": "Claude の設定ディレクトリ（settings.json）を上書きし、claude.json（MCP）も同じ場所に置きます。",
     "codexConfigDir": "Codex 設定ディレクトリ",
@@ -208,7 +208,7 @@
     "importFailedError": "設定のインポートに失敗しました: {{message}}",
     "exportFailedError": "設定のエクスポートに失敗しました:",
     "restartRequired": "再起動が必要です",
-    "restartRequiredMessage": "CC Switch の設定ディレクトリを変更すると再起動が必要です。今すぐ再起動しますか？",
+    "restartRequiredMessage": "BMAI Tools の設定ディレクトリを変更しました。変更を有効にするにはアプリケーションの再起動が必要です。今すぐ再起動しますか？",
     "restartNow": "今すぐ再起動",
     "restartLater": "後で再起動",
     "restartFailed": "アプリの再起動に失敗しました。手動で閉じて再度開いてください。",
@@ -261,8 +261,8 @@
     "officialHint": "💡 公式プロバイダーはブラウザログインで、API Key は不要です",
     "getApiKey": "API Key を取得",
     "partnerPromotion": {
-      "zhipu": "Zhipu GLM は CC Switch の公式パートナーです。リンク経由でチャージすると 10% 割引",
-      "packycode": "PackyCode は CC Switch の公式パートナーです。登録後チャージ時に \"cc-switch\" を入力すると 10% オフ",
+      "zhipu": "Zhipu GLM は BMAI Tools の公式パートナーです。このリンクからチャージすると10%オフになります",
+      "packycode": "PackyCode は BMAI Tools の公式パートナーです。このリンクから登録し、チャージ時に「bmaitools」プロモーションコードを入力すると10%オフになります",
       "minimax": "MiniMax Coding Plan Black Friday、Starter が月額 $2（80% OFF）"
     },
     "parameterConfig": "パラメーター設定 - {{name}} *",
@@ -592,13 +592,13 @@
   },
   "prompts": {
     "manage": "プロンプト",
-    "title": "{{appName}} プロンプト管理",
+    "title": "BMAI Tools プロンプト管理",
     "claudeTitle": "Claude プロンプト管理",
     "codexTitle": "Codex プロンプト管理",
     "add": "プロンプトを追加",
     "edit": "プロンプトを編集",
-    "addTitle": "{{appName}} プロンプトを追加",
-    "editTitle": "{{appName}} プロンプトを編集",
+    "addTitle": "BMAI Tools プロンプトを追加",
+    "editTitle": "BMAI Tools プロンプトを編集",
     "import": "既存をインポート",
     "count": "{{count}} 件のプロンプト",
     "enabled": "有効",
@@ -753,7 +753,7 @@
   },
   "deeplink": {
     "confirmImport": "プロバイダーのインポートを確認",
-    "confirmImportDescription": "次の設定をディープリンクから CC Switch へインポートします",
+    "confirmImportDescription": "次の設定を BMAI Tools にインポートします",
     "importPrompt": "プロンプトをインポート",
     "importPromptDescription": "このシステムプロンプトをインポートするか確認してください",
     "importMcp": "MCP サーバーをインポート",

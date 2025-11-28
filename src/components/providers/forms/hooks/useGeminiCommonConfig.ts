@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { configApi } from "@/lib/api";
 
-const LEGACY_STORAGE_KEY = "cc-switch:gemini-common-config-snippet";
+const LEGACY_STORAGE_KEY = "bmai-tools:gemini-common-config-snippet";
 const DEFAULT_GEMINI_COMMON_CONFIG_SNIPPET = `{
   "timeout": 30000,
   "maxRetries": 3

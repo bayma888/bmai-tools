@@ -1,6 +1,6 @@
 <div align="center">
 
-# All-in-One Assistant for Claude Code, Codex & Gemini CLI
+# BMAI Tools - All-in-One AI Assistant
 
 [![Version](https://img.shields.io/badge/version-3.7.1-blue.svg)](https://github.com/farion1231/cc-switch/releases)
 [![Trending](https://img.shields.io/badge/🔥_TypeScript_Trending-Daily%20%7C%20Weekly%20%7C%20Monthly-ff6b6b.svg)](https://github.com/trending/typescript)
@@ -12,7 +12,7 @@
 
 English | [中文](README_ZH.md) | [Changelog](CHANGELOG.md)
 
-**From Provider Switcher to All-in-One AI CLI Management Platform**
+**Your All-in-One AI Management Platform**
 
 Unified management for Claude Code, Codex & Gemini CLI provider configurations, MCP servers, Skills extensions, and system prompts.
 

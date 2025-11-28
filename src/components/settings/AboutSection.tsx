@@ -64,13 +64,13 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
 
       if (!displayVersion) {
         await settingsApi.openExternal(
-          "https://github.com/farion1231/cc-switch/releases",
+          "https://github.com/farion1231/bmai-tools/releases",
         );
         return;
       }
 
       await settingsApi.openExternal(
-        `https://github.com/farion1231/cc-switch/releases/tag/${displayVersion}`,
+        `https://github.com/farion1231/bmai-tools/releases/tag/${displayVersion}`,
       );
     } catch (error) {
       console.error("[AboutSection] Failed to open release notes", error);
@@ -136,7 +136,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
       <div className="space-y-4 rounded-lg border border-border-default p-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-foreground">CC Switch</p>
+            <p className="text-sm font-medium text-foreground">BMAI Tools</p>
             <p className="text-xs text-muted-foreground">
               {t("common.version")}{" "}
               {isLoadingVersion ? (
