@@ -5,6 +5,46 @@ All notable changes to CC Switch will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] - 2025-11-28
+
+### Major Updates
+
+- **Persistence architecture upgrade** - Moved from single JSON storage to SQLite + JSON dual-layer; added schema versioning, transactions, and SQL import/export; first launch auto-migrates `config.json` to SQLite while keeping originals safe.
+- **Brand new UI** - Full layout redesign, unified component/ConfirmDialog styles, smoother animations, overscroll disabled; Tailwind CSS downgraded to v3.4 for compatibility.
+- **Japanese language support** - UI now localized in Chinese/English/Japanese.
+
+### Added
+
+- **Skills recursive scanning** - Discovers nested `SKILL.md` files across multi-level directories; same-name skills allowed by full-path dedup.
+- **Provider icons** - Presets ship with default icons; custom icon colors; icons retained when duplicating providers.
+- **Auto launch on startup** - One-click enable/disable using Registry/LaunchAgent/XDG autostart.
+- **Provider preset** - Added MiniMax partner preset.
+- **Form validation** - Required fields get real-time validation and unified toast messaging.
+
+### Fixed
+
+- **Custom endpoints loss** - Switched provider updates to `UPDATE` to avoid cascade deletes from `INSERT OR REPLACE`.
+- **Gemini config writing** - Correctly writes custom env vars to `.env` and keeps auth configs isolated.
+- **Provider validation** - Handles missing current provider IDs and preserves icon fields on duplicate.
+- **Linux rendering** - Fixed WebKitGTK DMA-BUF rendering and preserved user `.desktop` customizations.
+- **Misc** - Removed redundant usage queries; corrected DMXAPI auth token field; restored missing deeplink translations; fixed usage script template init.
+
+### Technical
+
+- **Database modules** - Added `schema`, `backup`, `migration`, and DAO layers for providers/MCP/prompts/skills/settings.
+- **Service modularization** - Split provider service into live/auth/endpoints/usage modules; deeplink parsing/import logic modularized.
+- **Code cleanup** - Removed legacy JSON-era import/export, unused MCP types; unified error handling; tests migrated to SQLite backend and MSW handlers updated.
+
+### Migration Notes
+
+- First launch auto-migrates data from `config.json` to SQLite and device settings to `settings.json`; originals kept; error dialog on failure; dry-run supported.
+
+### Stats
+
+- 51 commits since v3.7.1; 207 files changed; +17,297 / -6,870 lines. See [release-note-v3.8.0](docs/release-note-v3.8.0-en.md) for details.
+
+---
+
 ## [3.7.1] - 2025-11-22
 
 ### Fixed

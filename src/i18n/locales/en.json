@@ -270,7 +270,7 @@
     "getApiKey": "Get API Key",
     "partnerPromotion": {
       "zhipu": "Zhipu GLM is an official partner of BMAI Tools. Use this link to top up and get a 10% discount",
-      "packycode": "PackyCode is an official partner of BMAI Tools. Register using this link and enter \"bmaitools\" promo code during recharge to get 10% off",
+      "packycode": "PackyCode is an official partner of BMAI Tools. Register using this link and enter \"BMAI Tools\" promo code during recharge to get 10% off",
       "minimax": "MiniMax Coding Plan Black Friday, Starter is now $2/mo (80% OFF!)"
     },
     "parameterConfig": "Parameter Config - {{name}} *",

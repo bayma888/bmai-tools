@@ -2,7 +2,7 @@
 
 # BMAI Tools - All-in-One AI Assistant
 
-[![Version](https://img.shields.io/badge/version-3.7.1-blue.svg)](https://github.com/farion1231/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-3.8.0-blue.svg)](https://github.com/farion1231/cc-switch/releases)
 [![Trending](https://img.shields.io/badge/🔥_TypeScript_Trending-Daily%20%7C%20Weekly%20%7C%20Monthly-ff6b6b.svg)](https://github.com/trending/typescript)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
@@ -10,7 +10,7 @@
 
 <a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-English | [中文](README_ZH.md) | [Changelog](CHANGELOG.md)
+English | [中文](README_ZH.md) | [日本語](README_JA.md) | [Changelog](CHANGELOG.md)
 
 **Your All-in-One AI Management Platform**
 
@@ -51,9 +51,42 @@ Get 10% OFF the GLM CODING PLAN with [this link](https://z.ai/subscribe?ic=8JVLJ
 
 ## Features
 
-### Current Version: v3.7.0 | [Full Changelog](CHANGELOG.md) | [📋 Release Notes](docs/release-note-v3.7.0-en.md)
+### Current Version: v3.8.0 | [Full Changelog](CHANGELOG.md) | [Release Notes](docs/release-note-v3.8.0-en.md)
 
-**v3.7.0 Major Update (2025-11-19)**
+**v3.8.0 Major Update (2025-11-28)**
+
+**Persistence Architecture Upgrade & Brand New UI**
+
+- **SQLite + JSON Dual-layer Architecture**
+  - Migrated from JSON file storage to SQLite + JSON dual-layer structure
+  - Syncable data (providers, MCP, Prompts, Skills) stored in SQLite
+  - Device-level data (window state, local paths) stored in JSON
+  - Lays the foundation for future cloud sync functionality
+  - Schema version management for database migrations
+
+- **Brand New User Interface**
+  - Completely redesigned interface layout
+  - Unified component styles and smoother animations
+  - Optimized visual hierarchy
+  - Tailwind CSS downgraded from v4 to v3.4 for better browser compatibility
+
+- **Japanese Language Support**
+  - Added Japanese interface support (now supports Chinese/English/Japanese)
+
+- **Auto Launch on Startup**
+  - One-click enable/disable in settings
+  - Platform-native APIs (Registry/LaunchAgent/XDG autostart)
+
+- **Skills Recursive Scanning**
+  - Support for multi-level directory structures
+  - Allow same-named skills from different repositories
+
+- **Critical Bug Fixes**
+  - Fixed custom endpoints lost when updating providers
+  - Fixed Gemini configuration write issues
+  - Fixed Linux WebKitGTK rendering issues
+
+**v3.7.0 Highlights**
 
 **Six Core Features, 18,000+ Lines of New Code**
 
@@ -226,10 +259,10 @@ Download the latest `CC-Switch-v{version}-Linux.deb` package or `CC-Switch-v{ver
 - MCP servers: `~/.gemini/settings.json` → `mcpServers`
 - Tray quick switch: Each provider switch rewrites `~/.gemini/.env`, no need to restart Gemini CLI
 
-**CC Switch Storage**
+**CC Switch Storage (v3.8.0 New Architecture)**
 
-- Main config (SSOT): `~/.cc-switch/config.json` (includes providers, MCP, Prompts presets, etc.)
-- Settings: `~/.cc-switch/settings.json`
+- Database (SSOT): `~/.cc-switch/cc-switch.db` (SQLite, stores providers, MCP, Prompts, Skills)
+- Local settings: `~/.cc-switch/settings.json` (device-level settings)
 - Backups: `~/.cc-switch/backups/` (auto-rotate, keep 10)
 
 ### Cloud Sync Setup
@@ -265,11 +298,12 @@ Download the latest `CC-Switch-v{version}-Linux.deb` package or `CC-Switch-v{ver
 
 **Core Design Patterns**
 
-- **SSOT** (Single Source of Truth): All provider configs stored in `~/.cc-switch/config.json`
+- **SSOT** (Single Source of Truth): All data stored in `~/.cc-switch/cc-switch.db` (SQLite)
+- **Dual-layer Storage**: SQLite for syncable data, JSON for device-level settings
 - **Dual-way Sync**: Write to live files on switch, backfill from live when editing active provider
 - **Atomic Writes**: Temp file + rename pattern prevents config corruption
-- **Concurrency Safe**: RwLock with scoped guards avoids deadlocks
-- **Layered Architecture**: Clear separation (Commands → Services → Models)
+- **Concurrency Safe**: Mutex-protected database connection avoids race conditions
+- **Layered Architecture**: Clear separation (Commands → Services → DAO → Database)
 
 **Key Components**
 

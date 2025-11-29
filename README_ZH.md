@@ -2,7 +2,7 @@
 
 # Claude Code / Codex / Gemini CLI 全方位辅助工具
 
-[![Version](https://img.shields.io/badge/version-3.7.1-blue.svg)](https://github.com/farion1231/cc-switch/releases)
+[![Version](https://img.shields.io/badge/version-3.8.0-blue.svg)](https://github.com/farion1231/cc-switch/releases)
 [![Trending](https://img.shields.io/badge/🔥_TypeScript_Trending-Daily%20%7C%20Weekly%20%7C%20Monthly-ff6b6b.svg)](https://github.com/trending/typescript)
 [![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](https://github.com/farion1231/cc-switch/releases)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-orange.svg)](https://tauri.app/)
@@ -10,7 +10,7 @@
 
 <a href="https://trendshift.io/repositories/15372" target="_blank"><img src="https://trendshift.io/api/badge/repositories/15372" alt="farion1231%2Fcc-switch | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
-[English](README.md) | 中文 | [更新日志](CHANGELOG.md) | [📋 v3.7.0 发布说明](docs/release-note-v3.7.0-zh.md)
+[English](README.md) | 中文 | [日本語](README_JA.md) | [更新日志](CHANGELOG.md) | [v3.8.0 发布说明](docs/release-note-v3.8.0-zh.md)
 
 **从供应商切换器到 AI CLI 一体化管理平台**
 
@@ -51,9 +51,42 @@ CC Switch 已经预设了智谱GLM，只需要填写 key 即可一键导入编�
 
 ## 功能特性
 
-### 当前版本：v3.7.0 | [完整更新日志](CHANGELOG.md)
+### 当前版本：v3.8.0 | [完整更新日志](CHANGELOG.md)
 
-**v3.7.0 重大更新（2025-11-19）**
+**v3.8.0 重大更新（2025-11-28）**
+
+**持久化架构升级 & 全新用户界面**
+
+- **SQLite + JSON 双层架构**
+  - 从 JSON 文件存储迁移到 SQLite + JSON 双层结构
+  - 可同步数据（供应商、MCP、Prompts、Skills）存入 SQLite
+  - 设备级数据（窗口状态、本地路径）保留在 JSON
+  - 为未来云同步功能奠定基础
+  - Schema 版本管理支持数据库迁移
+
+- **全新用户界面**
+  - 完全重新设计的界面布局
+  - 统一的组件样式和更流畅的动画
+  - 优化的视觉层次
+  - Tailwind CSS 从 v4 降级到 v3.4 以提升浏览器兼容性
+
+- **日语支持**
+  - 新增日语界面支持（现支持中文/英文/日语）
+
+- **开机自启**
+  - 在设置中一键开启/关闭
+  - 使用平台原生 API（注册表/LaunchAgent/XDG autostart）
+
+- **Skills 递归扫描**
+  - 支持多层目录结构
+  - 允许不同仓库的同名技能
+
+- **关键 Bug 修复**
+  - 修复更新供应商时自定义端点丢失问题
+  - 修复 Gemini 配置写入问题
+  - 修复 Linux WebKitGTK 渲染问题
+
+**v3.7.0 亮点**
 
 **六大核心功能，18,000+ 行新增代码**
 
@@ -226,10 +259,10 @@ paru -S cc-switch-bin
 - MCP 服务器：`~/.gemini/settings.json` → `mcpServers`
 - 托盘快速切换：每次切换供应商都会重写 `~/.gemini/.env`，无需重启 Gemini CLI 即可生效
 
-**CC Switch 存储**
+**CC Switch 存储（v3.8.0 新架构）**
 
-- 主配置（SSOT）：`~/.cc-switch/config.json`（包含供应商、MCP、Prompts 预设等）
-- 设置：`~/.cc-switch/settings.json`
+- 数据库（SSOT）：`~/.cc-switch/cc-switch.db`（SQLite，存储供应商、MCP、Prompts、Skills）
+- 本地设置：`~/.cc-switch/settings.json`（设备级设置）
 - 备份：`~/.cc-switch/backups/`（自动轮换，保留 10 个）
 
 ### 云同步设置
@@ -265,11 +298,12 @@ paru -S cc-switch-bin
 
 **核心设计模式**
 
-- **SSOT**（单一事实源）：所有供应商配置存储在 `~/.cc-switch/config.json`
+- **SSOT**（单一事实源）：所有数据存储在 `~/.cc-switch/cc-switch.db`（SQLite）
+- **双层存储**：SQLite 存储可同步数据，JSON 存储设备级设置
 - **双向同步**：切换时写入 live 文件，编辑当前供应商时从 live 回填
 - **原子写入**：临时文件 + 重命名模式防止配置损坏
-- **并发安全**：RwLock 与作用域守卫避免死锁
-- **分层架构**：清晰分离（Commands → Services → Models）
+- **并发安全**：Mutex 保护的数据库连接避免竞态条件
+- **分层架构**：清晰分离（Commands → Services → DAO → Database）
 
 **核心组件**
 

@@ -1,5 +1,5 @@
 use crate::error::AppError;
-use auto_launch::AutoLaunch;
+use auto_launch::{AutoLaunch, AutoLaunchBuilder};
 
 /// 初始化 AutoLaunch 实例
 fn get_auto_launch() -> Result<AutoLaunch, AppError> {
@@ -7,13 +7,15 @@ fn get_auto_launch() -> Result<AutoLaunch, AppError> {
     let app_path =
         std::env::current_exe().map_err(|e| AppError::Message(format!("无法获取应用路径: {e}")))?;
 
-    // Windows 平台的 AutoLaunch::new 只接受 3 个参数
-    // Linux/macOS 平台需要 4 个参数（包含 hidden 参数）
-    #[cfg(target_os = "windows")]
-    let auto_launch = AutoLaunch::new(app_name, &app_path.to_string_lossy(), &[] as &[&str]);
-
-    #[cfg(not(target_os = "windows"))]
-    let auto_launch = AutoLaunch::new(app_name, &app_path.to_string_lossy(), false, &[] as &[&str]);
+    // 使用 AutoLaunchBuilder 消除平台差异
+    // Windows/Linux: new() 接受 3 参数
+    // macOS: new() 接受 4 参数（含 hidden 参数）
+    // Builder 模式自动处理这些差异
+    let auto_launch = AutoLaunchBuilder::new()
+        .set_app_name(app_name)
+        .set_app_path(&app_path.to_string_lossy())
+        .build()
+        .map_err(|e| AppError::Message(format!("创建 AutoLaunch 失败: {e}")))?;
 
     Ok(auto_launch)
 }

@@ -1,10 +1,10 @@
 [package]
 name = "bmai-tools"
-version = "0.1.0"
-description = "BMAI Tools - All-in-One AI Management Platform"
+version = "3.8.0"
+description = "All-in-One Assistant for Claude Code, Codex & Gemini CLI"
 authors = ["BMAI Team"]
 license = "MIT"
-repository = "https://github.com/your-username/bmai-tools"
+repository = "https://github.com/bayma888/bmai-tools"
 edition = "2021"
 rust-version = "1.85.0"
 

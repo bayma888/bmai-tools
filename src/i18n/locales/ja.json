@@ -261,8 +261,8 @@
     "officialHint": "💡 公式プロバイダーはブラウザログインで、API Key は不要です",
     "getApiKey": "API Key を取得",
     "partnerPromotion": {
-      "zhipu": "Zhipu GLM は BMAI Tools の公式パートナーです。このリンクからチャージすると10%オフになります",
-      "packycode": "PackyCode は BMAI Tools の公式パートナーです。このリンクから登録し、チャージ時に「bmaitools」プロモーションコードを入力すると10%オフになります",
+      "zhipu": "Zhipu GLM は CC Switch の公式パートナーです。リンク経由でチャージすると 10% 割引",
+      "packycode": "PackyCode は CC Switch の公式パートナーです。登録後チャージ時に \"BMAI Tolls\" を入力すると 10% オフ",
       "minimax": "MiniMax Coding Plan Black Friday、Starter が月額 $2（80% OFF）"
     },
     "parameterConfig": "パラメーター設定 - {{name}} *",
