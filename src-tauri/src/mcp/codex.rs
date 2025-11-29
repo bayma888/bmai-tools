@@ -1,7 +1,7 @@
 use serde_json::{json, Value};
 use std::collections::HashMap;
 
-use crate::app_config::{AppType, McpConfig, MultiAppConfig};
+use crate::app_config::{AppType, McpApps, McpConfig, McpServer, MultiAppConfig};
 use crate::error::AppError;
 
 /// 基础校验：允许 stdio/http/sse；或省略 type（视为 stdio）。对应必填字段存在
