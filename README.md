@@ -1,7 +1,15 @@
-# bayma-cc
+# bmai-tools
 
-北马🐴 Claude Code 收集工具集合  
+## 北马AI·与你同在 😊
+
+一键配置、Claude Code 收集工具集合
 Bayma Claude Code Tools Collection
+
+- Claude code：开发主逻辑功能、规划项目全面、日常生产力主力！
+- Gemini3：主打前端视觉审美生成、你可以把它当UI！
+- Codex：主打查找bug测试全面、修复效率好！
+
+以后三个AI以后要常驻你的电脑，已是常态，因为各有优势。
 
 ---
 
@@ -15,7 +23,7 @@ This repository collects and organizes tools, configurations, and best practices
 
 ## 🚀 快速开始 | Quick Start
 
-敬请期待...  
+敬请期待...
 Coming soon...
 
 ---
@@ -40,6 +48,6 @@ MIT License
 
 ## 👤 Author
 
-**Bayma-AI**
+**bam-AI**
 
 - GitHub: [@Bayma-AI](https://github.com/Bayma-AI)
