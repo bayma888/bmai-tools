@@ -1,8 +1,9 @@
-# 北马AI工具包 (BMAI Tools)
+# 北马AI - 工具包 (BMAI Tools)
+
+## 🐴 北马AI·与你同在 😊
+
 
 <div align="center">
-
-**🐴 北马AI·与你同在 😊**
 
 [![Version](https://img.shields.io/badge/version-3.8.0-blue.svg)](https://github.com/bayma888/bmai-tools/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -64,7 +65,6 @@
 ### 🌐 多语言支持
 - 🇨🇳 简体中文
 - 🇺🇸 English
-- 🇯🇵 日本語
 
 ### 🚀 其他特性
 - **系统托盘** - 快速切换供应商,无需打开主窗口
@@ -84,28 +84,13 @@
 # https://github.com/bayma888/bmai-tools/releases/latest
 
 # 或下载便携版 ZIP
-CC-Switch-v3.8.0-Windows-Portable.zip
+BMAI-Tools-v3.8.0-Windows-Portable.zip
 ```
 
 ### macOS
 ```bash
 # 下载 .tar.gz 或 .zip
-CC-Switch-v3.8.0-macOS.tar.gz
-```
-
-### Linux
-```bash
-# Ubuntu/Debian
-wget https://github.com/bayma888/bmai-tools/releases/download/v3.8.0/CC-Switch-v3.8.0-Linux.deb
-sudo dpkg -i CC-Switch-v3.8.0-Linux.deb
-
-# AppImage
-wget https://github.com/bayma888/bmai-tools/releases/download/v3.8.0/CC-Switch-v3.8.0-Linux.AppImage
-chmod +x CC-Switch-v3.8.0-Linux.AppImage
-./CC-Switch-v3.8.0-Linux.AppImage
-
-# ArchLinux (AUR)
-paru -S cc-switch-bin
+BMAI-Tools-v3.8.0-macOS.tar.gz
 ```
 
 ---
@@ -286,20 +271,20 @@ cargo test
 
 **Windows:**
 ```
-C:\Users\<用户名>\.cc-switch\config.db
-C:\Users\<用户名>\.cc-switch\settings.json
+C:\Users\<用户名>\.BMAI-Tools\config.db
+C:\Users\<用户名>\.BMAI-Tools\settings.json
 ```
 
 **macOS:**
 ```
-~/.cc-switch/config.db
-~/.cc-switch/settings.json
+~/.BMAI-Tools/config.db
+~/.BMAI-Tools/settings.json
 ```
 
 **Linux:**
 ```
-~/.cc-switch/config.db
-~/.cc-switch/settings.json
+~/.BMAI-Tools/config.db
+~/.BMAI-Tools/settings.json
 ```
 
 ### 数据结构
