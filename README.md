@@ -1,53 +1,432 @@
-# bmai-tools
+# 北马AI工具包 (BMAI Tools)
 
-## 北马AI·与你同在 😊
+<div align="center">
 
-一键配置、Claude Code 收集工具集合
-Bayma Claude Code Tools Collection
+**🐴 北马AI·与你同在 😊**
 
-- Claude code：开发主逻辑功能、规划项目全面、日常生产力主力！
-- Gemini3：主打前端视觉审美生成、你可以把它当UI！
-- Codex：主打查找bug测试全面、修复效率好！
+[![Version](https://img.shields.io/badge/version-3.8.0-blue.svg)](https://github.com/bayma888/bmai-tools/releases)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tauri](https://img.shields.io/badge/Tauri-2.8.2-blue.svg)](https://tauri.app/)
+[![React](https://img.shields.io/badge/React-18.2.0-61dafb.svg)](https://reactjs.org/)
 
-以后三个AI以后要常驻你的电脑，已是常态，因为各有优势。
+**一站式 AI CLI 管理平台 | All-in-One AI CLI Management Platform**
 
----
+[简体中文](#简介) | [English](#introduction)
 
-## 📖 简介 | Introduction
-
-这是一个收集和整理 Claude Code 相关工具、配置和最佳实践的仓库。
-
-This repository collects and organizes tools, configurations, and best practices related to Claude Code.
+</div>
 
 ---
 
-## 🚀 快速开始 | Quick Start
+## 🎯 核心理念
 
-敬请期待...
-Coming soon...
+**北马AI工具包** 是一个专为 AI CLI 工具设计的统一配置管理平台。让你轻松驾驭三大 AI 助手：
+
+- **Claude Code** 💼 - 开发主逻辑功能、规划项目全面、日常生产力主力！
+- **Gemini CLI** 🎨 - 主打前端视觉审美生成、你可以把它当UI设计师！
+- **Codex** 🔍 - 主打查找bug测试全面、修复效率好！
+
+> 三个AI常驻你的电脑，已是常态，因为各有优势！
 
 ---
 
-## 📂 目录结构 | Directory Structure
+## ✨ 核心功能
+
+### 🔌 Provider 管理
+- **多供应商配置** - 一键切换不同的 API 供应商
+- **预设模板** - 内置主流供应商配置(OpenAI、Claude、Gemini、国内大模型等)
+- **自定义端点** - 支持自定义 API 端点和多端点配置
+- **配置导入导出** - 备份和恢复你的供应商配置
+- **使用量查询** - 实时查询 API 使用量和余额
+- **端点测速** - 测试不同供应商的响应延迟
+
+### 🛠️ MCP 服务管理
+- **统一管理界面** - 一站式管理 Claude/Codex/Gemini 的 MCP 服务器
+- **多种传输协议** - 支持 stdio、http、sse 传输类型
+- **智能配置** - 自动同步配置到各个 CLI 工具
+- **内置模板** - 常用 MCP 服务器模板(mcp-fetch 等)
+- **实时开关** - 动态启用/禁用 MCP 服务器
+
+### 📚 Skills 管理系统
+- **GitHub 集成** - 从 GitHub 仓库自动发现和安装 Skills
+- **预配置仓库** - 内置优质 Skills 仓库
+  - `ComposioHQ/awesome-claude-skills` (精选集合)
+  - `anthropics/skills` (官方 Anthropic Skills)
+  - `cexll/myclaude` (社区贡献)
+- **生命周期管理** - 一键安装、卸载、更新检查
+- **自定义仓库** - 支持添加任何 GitHub 仓库作为 Skill 源
+
+### 📝 Prompts 管理
+- **多预设管理** - 创建、编辑和切换多个系统提示词
+- **跨应用支持** - 自动同步到 Claude/Codex/Gemini
+- **Markdown 编辑器** - 全功能代码编辑器,支持语法高亮
+- **智能同步** - 启用时自动写入实时配置文件
+
+### 🌐 多语言支持
+- 🇨🇳 简体中文
+- 🇺🇸 English
+- 🇯🇵 日本語
+
+### 🚀 其他特性
+- **系统托盘** - 快速切换供应商,无需打开主窗口
+- **自动启动** - 开机自动启动(可选)
+- **深度链接** - 通过 `ccswitch://` 协议导入配置
+- **环境变量检测** - 自动识别和解决配置冲突
+- **暗色模式** - 优雅的暗色主题设计
+- **跨平台** - 支持 Windows、macOS、Linux
+
+---
+
+## 📦 安装
+
+### Windows
+```bash
+# 下载 MSI 安装包
+# https://github.com/bayma888/bmai-tools/releases/latest
+
+# 或下载便携版 ZIP
+CC-Switch-v3.8.0-Windows-Portable.zip
+```
+
+### macOS
+```bash
+# 下载 .tar.gz 或 .zip
+CC-Switch-v3.8.0-macOS.tar.gz
+```
+
+### Linux
+```bash
+# Ubuntu/Debian
+wget https://github.com/bayma888/bmai-tools/releases/download/v3.8.0/CC-Switch-v3.8.0-Linux.deb
+sudo dpkg -i CC-Switch-v3.8.0-Linux.deb
+
+# AppImage
+wget https://github.com/bayma888/bmai-tools/releases/download/v3.8.0/CC-Switch-v3.8.0-Linux.AppImage
+chmod +x CC-Switch-v3.8.0-Linux.AppImage
+./CC-Switch-v3.8.0-Linux.AppImage
+
+# ArchLinux (AUR)
+paru -S cc-switch-bin
+```
+
+---
+
+## 🚀 快速开始
+
+### 1️⃣ 安装 AI CLI 工具
+
+首先安装你需要的 AI CLI 工具:
+
+```bash
+# Claude Code
+npm install -g @anthropic-ai/claude-code
+
+# Codex
+npm install -g @modelcontextprotocol/codex
+
+# Gemini CLI
+npm install -g @google/gemini-cli
+```
+
+### 2️⃣ 启动 BMAI Tools
+
+打开应用后,你会看到:
+- **Providers** - 管理你的 API 供应商
+- **MCP** - 配置 Model Context Protocol 服务
+- **Skills** - 安装和管理 Claude Skills
+- **Prompts** - 管理系统提示词
+
+### 3️⃣ 添加供应商
+
+1. 点击 **"添加 Provider"**
+2. 选择预设供应商或创建自定义配置
+3. 填写 API Key 和相关信息
+4. 保存并启用
+
+### 4️⃣ 开始使用
+
+- 在系统托盘快速切换供应商
+- 配置会自动同步到对应的 CLI 工具
+- 享受无缝的 AI 开发体验！
+
+---
+
+## 🏗️ 技术栈
+
+### 前端技术
+- **React 18.2** - 用户界面框架
+- **TypeScript 5.3** - 类型安全
+- **Vite 5.x** - 快速构建工具
+- **TailwindCSS 3.4** - 原子化 CSS
+- **Radix UI** - 无障碍组件库
+- **CodeMirror 6** - 代码编辑器
+- **TanStack Query** - 数据状态管理
+- **i18next** - 国际化方案
+
+### 后端技术
+- **Tauri 2.8** - 跨平台桌面框架
+- **Rust 1.85** - 高性能后端语言
+- **SQLite** - 本地数据存储
+- **Tokio** - 异步运行时
+- **Reqwest** - HTTP 客户端
+
+### 核心依赖
+- **tauri-plugin-store** - 配置持久化
+- **tauri-plugin-updater** - 自动更新
+- **tauri-plugin-dialog** - 原生对话框
+- **auto-launch** - 开机自启动
+
+---
+
+## 📂 项目结构
 
 ```
-bayma-cc/
-├── tools/          # 工具脚本 | Tool scripts
-├── configs/        # 配置文件 | Configuration files
-├── examples/       # 示例代码 | Example code
-└── docs/           # 文档 | Documentation
+bmai-tools/
+├── src/                      # React 前端代码
+│   ├── components/           # UI 组件
+│   │   ├── providers/        # Provider 管理
+│   │   ├── mcp/              # MCP 配置
+│   │   ├── prompts/          # Prompts 管理
+│   │   └── settings/         # 设置界面
+│   ├── i18n/                 # 国际化文件
+│   ├── hooks/                # React Hooks
+│   └── lib/                  # 工具函数
+├── src-tauri/                # Rust 后端代码
+│   ├── src/
+│   │   ├── commands/         # Tauri 命令
+│   │   ├── database/         # 数据库模块
+│   │   ├── services/         # 业务逻辑
+│   │   └── main.rs           # 入口文件
+│   └── Cargo.toml            # Rust 依赖
+├── docs/                     # 项目文档
+├── scripts/                  # 构建脚本
+└── tests/                    # 测试文件
 ```
 
 ---
 
-## 📝 License
+## 🛠️ 开发指南
 
-MIT License
+### 环境要求
+
+- **Node.js** >= 20.x
+- **pnpm** >= 10.x
+- **Rust** >= 1.85.0
+- **Tauri CLI** 2.x
+
+### 安装依赖
+
+```bash
+# 克隆仓库
+git clone https://github.com/bayma888/bmai-tools.git
+cd bmai-tools
+
+# 安装前端依赖
+pnpm install
+```
+
+### 开发模式
+
+```bash
+# 启动开发服务器
+pnpm dev
+
+# 仅运行前端开发服务器
+pnpm dev:renderer
+```
+
+### 构建应用
+
+```bash
+# 构建生产版本
+pnpm build
+
+# 仅构建前端
+pnpm build:renderer
+```
+
+### 代码质量
+
+```bash
+# TypeScript 类型检查
+pnpm typecheck
+
+# 代码格式化
+pnpm format
+
+# 代码格式检查
+pnpm format:check
+
+# 运行单元测试
+pnpm test:unit
+
+# 监听模式运行测试
+pnpm test:unit:watch
+```
+
+### Rust 开发
+
+```bash
+cd src-tauri
+
+# 格式化 Rust 代码
+cargo fmt
+
+# 代码检查
+cargo clippy
+
+# 运行 Rust 测试
+cargo test
+```
 
 ---
 
-## 👤 Author
+## 📊 数据持久化
 
-**bam-AI**
+### 配置文件位置
 
-- GitHub: [@Bayma-AI](https://github.com/Bayma-AI)
+**Windows:**
+```
+C:\Users\<用户名>\.cc-switch\config.db
+C:\Users\<用户名>\.cc-switch\settings.json
+```
+
+**macOS:**
+```
+~/.cc-switch/config.db
+~/.cc-switch/settings.json
+```
+
+**Linux:**
+```
+~/.cc-switch/config.db
+~/.cc-switch/settings.json
+```
+
+### 数据结构
+
+- **config.db** - SQLite 数据库,存储 Providers、MCP、Skills 等配置
+- **settings.json** - 应用设置(语言、自动启动等)
+- **备份文件** - 自动创建配置备份(保留最近10个)
+
+---
+
+## 🔐 安全性
+
+- ✅ **本地存储** - 所有配置和 API Key 仅存储在本地
+- ✅ **无数据上传** - 不会上传任何配置到云端
+- ✅ **权限最小化** - 仅请求必要的系统权限
+- ✅ **CSP 保护** - 内容安全策略防止 XSS 攻击
+- ✅ **Rust 安全** - 使用内存安全的 Rust 语言
+
+---
+
+## 🤝 贡献指南
+
+我们欢迎所有形式的贡献！
+
+### 如何贡献
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+### 开发规范
+
+- 遵循 TypeScript/Rust 代码规范
+- 编写清晰的提交信息
+- 添加必要的注释和文档
+- 确保测试通过
+
+---
+
+## 📝 更新日志
+
+查看 [CHANGELOG.md](CHANGELOG.md) 了解详细的版本历史。
+
+### 最新版本 v3.8.0 (2025-11-28)
+
+**重大更新:**
+- 🗄️ 持久化架构升级 - SQLite + JSON 双层存储
+- 🎨 全新 UI 设计 - 布局重构,统一组件样式
+- 🇯🇵 日语支持 - 新增日语界面
+
+**新功能:**
+- Skills 递归扫描 - 支持多级目录
+- Provider 图标 - 预设默认图标,自定义颜色
+- 自动启动 - 开机启动功能
+- 预设 - 新增合作伙伴
+
+查看完整更新日志: [docs/release-note-v3.8.0-zh.md](docs/release-note-v3.8.0-zh.md)
+
+---
+
+## 🐛 问题反馈
+
+遇到问题？请在 [Issues](https://github.com/bayma888/bmai-tools/issues) 提交反馈。
+
+提交 Issue 时请包含:
+- 操作系统和版本
+- 应用版本
+- 详细的问题描述
+- 复现步骤
+- 错误日志(如有)
+
+---
+
+## 📄 许可证
+
+本项目采用 [MIT License](LICENSE) 开源协议。
+
+---
+
+## 👥 团队
+
+**BMAI Team**
+
+- **项目维护** - [bayma888](https://github.com/bayma888)
+- **技术支持** - Bayma AI 社区
+
+---
+
+## 🙏 致谢
+
+感谢以下开源项目和贡献者:
+
+- [Tauri](https://tauri.app/) - 跨平台应用框架
+- [Claude Code](https://claude.com/code) - Anthropic AI CLI
+- [Codex](https://modelcontextprotocol.io/) - MCP CLI
+- [Gemini CLI](https://ai.google.dev/) - Google AI CLI
+- 所有贡献者和用户的支持
+
+---
+
+## 🔗 相关链接
+
+- **官方网站** - [待补充]
+- **使用文档** - [docs/](docs/)
+- **发布页面** - [Releases](https://github.com/bayma888/bmai-tools/releases)
+- **问题反馈** - [Issues](https://github.com/bayma888/bmai-tools/issues)
+
+---
+
+## 💬 社区
+
+欢迎加入我们的社区:
+
+- 💬 **讨论区** - [GitHub Discussions](https://github.com/bayma888/bmai-tools/discussions)
+<!-- - 🐦 **Twitter** - [@BaymaAI](https://twitter.com/BaymaAI) -->
+- 📧 **邮箱** -
+
+---
+
+<div align="center">
+
+**🐴 北马AI·与你同在 😊**
+
+Made with ❤️ by BMAI Team
+
+[⬆ 回到顶部](#北马ai工具包-bmai-tools)
+
+</div>
