@@ -425,6 +425,7 @@ pub fn run() {
             commands::queryProviderUsage,
             commands::testUsageScript,
             commands::query_api_usage,
+            commands::query_model_stats,
             // New MCP via config.json (SSOT)
             commands::get_mcp_config,
             commands::upsert_mcp_server_in_config,

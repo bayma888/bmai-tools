@@ -46,6 +46,11 @@
     "description": "View API usage and computing power statistics",
     "loading": "Querying usage data...",
     "refresh": "Refresh",
+    "noProvider": "No provider selected",
+    "usingProviderConfig": "Using current provider config",
+    "noApiKey": "Current provider has no API Key configured",
+    "noApiKeyTitle": "No API Key Configured",
+    "noApiKeyDescription": "Please configure the API Key in provider settings first. Usage query will automatically use current provider's config",
     "config": {
       "title": "Query Config",
       "configured": "API Key configured",
@@ -93,6 +98,13 @@
     },
     "accounts": {
       "title": "Linked Accounts"
+    },
+    "modelStats": {
+      "title": "Model Statistics",
+      "input": "Input",
+      "output": "Output",
+      "cacheWrite": "Cache Write",
+      "cacheRead": "Cache Read"
     }
   },
   "apiKeyInput": {

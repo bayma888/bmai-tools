@@ -12,6 +12,7 @@ import {
   Layers,
   ChevronRight,
   BarChart3,
+  Loader2,
 } from "lucide-react";
 import type { Provider } from "@/types";
 import type { EnvConflict } from "@/types/env";
@@ -39,7 +40,7 @@ import UnifiedMcpPanel from "@/components/mcp/UnifiedMcpPanel";
 import PromptPanel from "@/components/prompts/PromptPanel";
 import { SkillsPage } from "@/components/skills/SkillsPage";
 import { AgentsPanel } from "@/components/agents/AgentsPanel";
-import { UsageLogPanel } from "@/components/usage/UsageLogPanel";
+import { UsageLogPanel, type UsageLogPanelRef, extractApiKey } from "@/components/usage/UsageLogPanel";
 import { Button } from "@/components/ui/button";
 
 type View = "providers" | "settings" | "prompts" | "skills" | "mcp" | "agents" | "usageLog";
@@ -76,6 +77,7 @@ function App() {
   const promptPanelRef = useRef<any>(null);
   const mcpPanelRef = useRef<any>(null);
   const skillsPageRef = useRef<any>(null);
+  const usageLogPanelRef = useRef<UsageLogPanelRef>(null);
 
   const { data, isLoading, refetch } = useProvidersQuery(activeApp);
   const providers = useMemo(() => data?.providers ?? {}, [data]);
@@ -283,7 +285,7 @@ function App() {
       case "agents":
         return t("agents.title");
       case "usageLog":
-        return t("usageLog.title", { defaultValue: "用量查询" });
+        return null; // 用量查询页面使用自定义标题栏
       default:
         return t("nav.providersTitle", { defaultValue: "Providers" });
     }
@@ -325,7 +327,14 @@ function App() {
       case "agents":
         return <AgentsPanel onOpenChange={() => setCurrentView("providers")} />;
       case "usageLog":
-        return <UsageLogPanel onOpenChange={() => setCurrentView("providers")} />;
+        return (
+          <UsageLogPanel
+            ref={usageLogPanelRef}
+            appId={activeApp}
+            currentProvider={providers[currentProviderId] ?? null}
+            onOpenChange={() => setCurrentView("providers")}
+          />
+        );
       default:
         return (
           <ProviderList
@@ -509,18 +518,91 @@ function App() {
           data-tauri-drag-region
           style={{ WebkitAppRegion: "drag" } as any}
         >
-          <h1
-            className="text-lg font-semibold text-foreground"
-            style={{ WebkitAppRegion: "no-drag" } as any}
-          >
-            {getPageTitle()}
-          </h1>
-          <div
-            className="flex items-center gap-3"
-            style={{ WebkitAppRegion: "no-drag" } as any}
-          >
-            {renderHeaderActions()}
-          </div>
+          {currentView === "usageLog" ? (
+            // 用量查询页面：自定义标题栏
+            (() => {
+              const currentProvider = providers[currentProviderId] || null;
+              const usageLogApiKey = extractApiKey(currentProvider, activeApp);
+              return (
+                <>
+                  <div
+                    className="flex items-center gap-3"
+                    style={{ WebkitAppRegion: "no-drag" } as any}
+                  >
+                    <h3 className="font-medium text-foreground">
+                      {currentProvider?.name ||
+                        t("usageLog.noProvider", { defaultValue: "未选择供应商" })}
+                    </h3>
+                    <span className="text-xs text-muted-foreground">
+                      {usageLogApiKey
+                        ? t("usageLog.usingProviderConfig", {
+                            defaultValue: "使用当前供应商配置查询",
+                          })
+                        : t("usageLog.noApiKey", {
+                            defaultValue: "当前供应商未配置 API Key",
+                          })}
+                    </span>
+                  </div>
+                  <div
+                    className="flex items-center gap-2"
+                    style={{ WebkitAppRegion: "no-drag" } as any}
+                  >
+                    <div className="flex rounded-lg border border-border overflow-hidden">
+                      <button
+                        onClick={() => usageLogPanelRef.current?.setPeriod("daily")}
+                        className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                          usageLogPanelRef.current?.period === "daily"
+                            ? "bg-blue-500 text-white"
+                            : "bg-background text-muted-foreground hover:bg-muted"
+                        }`}
+                      >
+                        {t("usageLog.config.daily", { defaultValue: "日统计" })}
+                      </button>
+                      <div className="w-px bg-border" />
+                      <button
+                        onClick={() => usageLogPanelRef.current?.setPeriod("monthly")}
+                        className={`px-3 py-1.5 text-xs font-medium transition-colors ${
+                          usageLogPanelRef.current?.period === "monthly"
+                            ? "bg-blue-500 text-white"
+                            : "bg-background text-muted-foreground hover:bg-muted"
+                        }`}
+                      >
+                        {t("usageLog.config.monthly", { defaultValue: "月统计" })}
+                      </button>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => usageLogPanelRef.current?.refresh()}
+                      disabled={!usageLogApiKey || usageLogPanelRef.current?.isLoading}
+                    >
+                      {usageLogPanelRef.current?.isLoading ? (
+                        <Loader2 size={14} className="animate-spin" />
+                      ) : (
+                        <RefreshCw size={14} />
+                      )}
+                    </Button>
+                  </div>
+                </>
+              );
+            })()
+          ) : (
+            // 其他页面：默认标题栏
+            <>
+              <h1
+                className="text-lg font-semibold text-foreground"
+                style={{ WebkitAppRegion: "no-drag" } as any}
+              >
+                {getPageTitle()}
+              </h1>
+              <div
+                className="flex items-center gap-3"
+                style={{ WebkitAppRegion: "no-drag" } as any}
+              >
+                {renderHeaderActions()}
+              </div>
+            </>
+          )}
         </header>
 
         {/* 主内容区 */}
