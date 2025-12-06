@@ -12,7 +12,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/core";
 import { message } from "@tauri-apps/plugin-dialog";
-import { exit } from "@tauri-apps/plugin-process";
 
 // 根据平台添加 body class，便于平台特定样式
 try {
@@ -47,6 +46,7 @@ async function handleConfigLoadError(
     { title: "配置加载失败", kind: "error" },
   );
 
+  const { exit } = await import("@tauri-apps/plugin-process");
   await exit(1);
 }
 

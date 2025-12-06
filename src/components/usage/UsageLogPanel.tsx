@@ -7,7 +7,6 @@ import {
   Activity,
   Zap,
   DollarSign,
-  Users,
   Clock,
   CheckCircle2,
   XCircle,
@@ -187,13 +186,48 @@ export const UsageLogPanel = forwardRef<UsageLogPanelRef, UsageLogPanelProps>(
       return num.toLocaleString();
     };
 
+    const formatTokens = (num?: number) => {
+      if (num === undefined || num === null) return "-";
+      if (num >= 1000000) return `${(num / 1000000).toFixed(2)}M`;
+      if (num >= 1000) return `${(num / 1000).toFixed(1)}K`;
+      return num.toString();
+    };
+
     const calcProgress = (current?: number, limit?: number) => {
       if (!current || !limit || limit === 0) return 0;
       return Math.min((current / limit) * 100, 100);
     };
 
     const data = result?.data;
-    const models = modelStats?.data ?? [];
+    const allModels = modelStats?.data ?? [];
+
+    // 所有模型费用汇总（不做筛选，用于月统计）
+    const allModelsCost = allModels.reduce((sum, m) => sum + m.costs.total, 0);
+
+    // 按 appId 过滤模型
+    const models = allModels.filter((m) => {
+      const model = m.model.toLowerCase();
+      if (appId === "claude") return model.includes("claude") || model.includes("anthropic") || model.includes("sonnet") || model.includes("opus") || model.includes("haiku");
+      if (appId === "codex") return model.includes("gpt") || model.includes("o1") || model.includes("o3") || model.includes("o4");
+      if (appId === "gemini") return model.includes("gemini");
+      return true;
+    });
+
+    // 从模型统计计算周期汇总数据
+    const periodUsage = models.length > 0
+      ? models.reduce(
+          (acc, m) => ({
+            requests: acc.requests + m.requests,
+            inputTokens: acc.inputTokens + m.inputTokens,
+            outputTokens: acc.outputTokens + m.outputTokens,
+            cacheCreateTokens: acc.cacheCreateTokens + m.cacheCreateTokens,
+            cacheReadTokens: acc.cacheReadTokens + m.cacheReadTokens,
+            allTokens: acc.allTokens + m.allTokens,
+            cost: acc.cost + m.costs.total,
+          }),
+          { requests: 0, inputTokens: 0, outputTokens: 0, cacheCreateTokens: 0, cacheReadTokens: 0, allTokens: 0, cost: 0 }
+        )
+      : null;
 
     return (
       <div className="flex flex-col h-full overflow-auto">
@@ -260,59 +294,158 @@ export const UsageLogPanel = forwardRef<UsageLogPanelRef, UsageLogPanelProps>(
         {/* 数据展示 */}
         {!isLoading && result?.success && data && (
           <div className="space-y-4">
-            {/* 基本信息卡片 */}
-            <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                  <Activity size={18} />
+            {/* 限制信息卡片 */}
+            {data.limits && (
+              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+                    <Clock size={18} />
+                  </div>
+                  <h3 className="font-medium text-foreground">
+                    {t("usageLog.limits.title", { defaultValue: "总使用限制" })}
+                  </h3>
                 </div>
-                <h3 className="font-medium text-foreground">
-                  {t("usageLog.info.title", { defaultValue: "基本信息" })}
-                </h3>
+                <div className="space-y-4">
+                  {period === "daily" ? (
+                    // 日统计：显示每日费用
+                    data.limits.dailyCostLimit !== undefined && (
+                      <div>
+                        <div className="flex justify-between text-sm mb-1.5">
+                          <span className="text-muted-foreground">
+                            {t("usageLog.limits.dailyCost", { defaultValue: "当日费用" })}
+                          </span>
+                          <span className="font-medium">
+                            ${data.limits.currentDailyCost?.toFixed(4) || "0"} / ${data.limits.dailyCostLimit}
+                          </span>
+                        </div>
+                        <div className="h-2 rounded-full bg-muted overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-orange-400 to-orange-500 transition-all"
+                            style={{ width: `${calcProgress(data.limits.currentDailyCost, data.limits.dailyCostLimit)}%` }}
+                          />
+                        </div>
+                      </div>
+                    )
+                  ) : (
+                    // 月统计：显示当月费用（所有模型费用汇总）
+                    <div>
+                      <div className="flex justify-between text-sm mb-1.5">
+                        <span className="text-muted-foreground">
+                          {t("usageLog.limits.monthlyCost", { defaultValue: "当月费用" })}
+                        </span>
+                        <span className="font-medium">
+                          ${allModelsCost.toFixed(4)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  {data.limits.totalCostLimit !== undefined && (
+                    <div>
+                      <div className="flex justify-between text-sm mb-1.5">
+                        <span className="text-muted-foreground">
+                          {t("usageLog.limits.totalCost", { defaultValue: "总费用" })}
+                        </span>
+                        <span className="font-medium">
+                          ${data.limits.currentTotalCost?.toFixed(4) || "0"} / ${data.limits.totalCostLimit}
+                        </span>
+                      </div>
+                      <div className="h-2 rounded-full bg-muted overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all"
+                          style={{ width: `${calcProgress(data.limits.currentTotalCost, data.limits.totalCostLimit)}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {data.limits.concurrencyLimit !== undefined && (
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">
+                        {t("usageLog.limits.concurrency", { defaultValue: "并发限制" })}
+                      </span>
+                      <span className="font-medium">{data.limits.concurrencyLimit}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">
-                    {t("usageLog.info.name", { defaultValue: "名称" })}
-                  </p>
-                  <p className="text-sm font-medium">{data.name || "-"}</p>
+            )}
+
+            {/* 使用量统计卡片 - 使用周期汇总数据 */}
+            {periodUsage && (
+              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+                    <Zap size={18} />
+                  </div>
+                  <h3 className="font-medium text-foreground">
+                    {t("usageLog.usage.title", { defaultValue: "使用量统计" })}
+                  </h3>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">
-                    {t("usageLog.info.status", { defaultValue: "状态" })}
-                  </p>
-                  <div className="flex items-center gap-1.5">
-                    {data.isActive ? (
-                      <>
-                        <CheckCircle2 size={14} className="text-emerald-500" />
-                        <span className="text-sm font-medium text-emerald-500">
-                          {t("usageLog.info.active", { defaultValue: "启用" })}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <XCircle size={14} className="text-red-500" />
-                        <span className="text-sm font-medium text-red-500">
-                          {t("usageLog.info.inactive", { defaultValue: "禁用" })}
-                        </span>
-                      </>
-                    )}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("usageLog.usage.requests", { defaultValue: "请求次数" })}
+                    </p>
+                    <p className="text-lg font-semibold tabular-nums">
+                      {formatNumber(periodUsage.requests)}
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("usageLog.usage.inputTokens", { defaultValue: "输入 Token" })}
+                    </p>
+                    <p className="text-lg font-semibold tabular-nums">
+                      {formatTokens(periodUsage.inputTokens)}
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("usageLog.usage.outputTokens", { defaultValue: "输出 Token" })}
+                    </p>
+                    <p className="text-lg font-semibold tabular-nums">
+                      {formatTokens(periodUsage.outputTokens)}
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("usageLog.usage.cacheCreate", { defaultValue: "缓存创建" })}
+                    </p>
+                    <p className="text-lg font-semibold tabular-nums">
+                      {formatTokens(periodUsage.cacheCreateTokens)}
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("usageLog.usage.cacheRead", { defaultValue: "缓存读取" })}
+                    </p>
+                    <p className="text-lg font-semibold tabular-nums">
+                      {formatTokens(periodUsage.cacheReadTokens)}
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-muted/50">
+                    <p className="text-xs text-muted-foreground mb-1">
+                      {t("usageLog.usage.totalTokens", { defaultValue: "总 Token" })}
+                    </p>
+                    <p className="text-lg font-semibold tabular-nums">
+                      {formatTokens(periodUsage.allTokens)}
+                    </p>
                   </div>
                 </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">
-                    {t("usageLog.info.createdAt", { defaultValue: "创建时间" })}
-                  </p>
-                  <p className="text-sm">{formatDate(data.createdAt)}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">
-                    {t("usageLog.info.expiresAt", { defaultValue: "过期时间" })}
-                  </p>
-                  <p className="text-sm">{formatDate(data.expiresAt)}</p>
+                {/* 费用 */}
+                <div className="mt-4 p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <DollarSign size={18} className="text-blue-500" />
+                      <span className="text-sm font-medium">
+                        {t("usageLog.usage.totalCost", { defaultValue: "总费用" })}
+                      </span>
+                    </div>
+                    <span className="text-xl font-bold text-blue-500">
+                      ${periodUsage.cost.toFixed(4)}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* 模型统计卡片 */}
             {models.length > 0 && (
@@ -402,208 +535,60 @@ export const UsageLogPanel = forwardRef<UsageLogPanelRef, UsageLogPanelProps>(
               </div>
             )}
 
-            {/* 使用量统计卡片 */}
-            {data.usage?.total && (
-              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
-                    <Zap size={18} />
-                  </div>
-                  <h3 className="font-medium text-foreground">
-                    {t("usageLog.usage.title", { defaultValue: "使用量统计" })}
-                  </h3>
+            {/* 基本信息卡片 */}
+            <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
+                  <Activity size={18} />
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <div className="p-3 rounded-lg bg-muted/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {t("usageLog.usage.requests", { defaultValue: "请求次数" })}
-                    </p>
-                    <p className="text-lg font-semibold tabular-nums">
-                      {formatNumber(data.usage.total.requests)}
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-muted/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {t("usageLog.usage.inputTokens", {
-                        defaultValue: "输入 Token",
-                      })}
-                    </p>
-                    <p className="text-lg font-semibold tabular-nums">
-                      {formatNumber(data.usage.total.inputTokens)}
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-muted/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {t("usageLog.usage.outputTokens", {
-                        defaultValue: "输出 Token",
-                      })}
-                    </p>
-                    <p className="text-lg font-semibold tabular-nums">
-                      {formatNumber(data.usage.total.outputTokens)}
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-muted/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {t("usageLog.usage.cacheCreate", {
-                        defaultValue: "缓存创建",
-                      })}
-                    </p>
-                    <p className="text-lg font-semibold tabular-nums">
-                      {formatNumber(data.usage.total.cacheCreateTokens)}
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-muted/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {t("usageLog.usage.cacheRead", {
-                        defaultValue: "缓存读取",
-                      })}
-                    </p>
-                    <p className="text-lg font-semibold tabular-nums">
-                      {formatNumber(data.usage.total.cacheReadTokens)}
-                    </p>
-                  </div>
-                  <div className="p-3 rounded-lg bg-muted/50">
-                    <p className="text-xs text-muted-foreground mb-1">
-                      {t("usageLog.usage.totalTokens", {
-                        defaultValue: "总 Token",
-                      })}
-                    </p>
-                    <p className="text-lg font-semibold tabular-nums">
-                      {formatNumber(data.usage.total.allTokens)}
-                    </p>
+                <h3 className="font-medium text-foreground">
+                  {t("usageLog.info.title", { defaultValue: "基本信息" })}
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    {t("usageLog.info.name", { defaultValue: "名称" })}
+                  </p>
+                  <p className="text-sm font-medium">{data.name || "-"}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    {t("usageLog.info.status", { defaultValue: "状态" })}
+                  </p>
+                  <div className="flex items-center gap-1.5">
+                    {data.isActive ? (
+                      <>
+                        <CheckCircle2 size={14} className="text-emerald-500" />
+                        <span className="text-sm font-medium text-emerald-500">
+                          {t("usageLog.info.active", { defaultValue: "启用" })}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle size={14} className="text-red-500" />
+                        <span className="text-sm font-medium text-red-500">
+                          {t("usageLog.info.inactive", { defaultValue: "禁用" })}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
-                {/* 费用 */}
-                <div className="mt-4 p-4 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <DollarSign size={18} className="text-blue-500" />
-                      <span className="text-sm font-medium">
-                        {t("usageLog.usage.totalCost", { defaultValue: "总费用" })}
-                      </span>
-                    </div>
-                    <span className="text-xl font-bold text-blue-500">
-                      {data.usage.total.formattedCost ||
-                        `$${data.usage.total.cost?.toFixed(4) || "0"}`}
-                    </span>
-                  </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    {t("usageLog.info.createdAt", { defaultValue: "创建时间" })}
+                  </p>
+                  <p className="text-sm">{formatDate(data.createdAt)}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground mb-1">
+                    {t("usageLog.info.expiresAt", { defaultValue: "过期时间" })}
+                  </p>
+                  <p className="text-sm">{formatDate(data.expiresAt)}</p>
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* 限制信息卡片 */}
-            {data.limits && (
-              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500">
-                    <Clock size={18} />
-                  </div>
-                  <h3 className="font-medium text-foreground">
-                    {t("usageLog.limits.title", { defaultValue: "使用限制" })}
-                  </h3>
-                </div>
-                <div className="space-y-4">
-                  {data.limits.dailyCostLimit !== undefined && (
-                    <div>
-                      <div className="flex justify-between text-sm mb-1.5">
-                        <span className="text-muted-foreground">
-                          {t("usageLog.limits.dailyCost", {
-                            defaultValue: "每日费用",
-                          })}
-                        </span>
-                        <span className="font-medium">
-                          ${data.limits.currentDailyCost?.toFixed(4) || "0"} / $
-                          {data.limits.dailyCostLimit}
-                        </span>
-                      </div>
-                      <div className="h-2 rounded-full bg-muted overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-orange-400 to-orange-500 transition-all"
-                          style={{
-                            width: `${calcProgress(data.limits.currentDailyCost, data.limits.dailyCostLimit)}%`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {data.limits.totalCostLimit !== undefined && (
-                    <div>
-                      <div className="flex justify-between text-sm mb-1.5">
-                        <span className="text-muted-foreground">
-                          {t("usageLog.limits.totalCost", {
-                            defaultValue: "总费用",
-                          })}
-                        </span>
-                        <span className="font-medium">
-                          ${data.limits.currentTotalCost?.toFixed(4) || "0"} / $
-                          {data.limits.totalCostLimit}
-                        </span>
-                      </div>
-                      <div className="h-2 rounded-full bg-muted overflow-hidden">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-500 transition-all"
-                          style={{
-                            width: `${calcProgress(data.limits.currentTotalCost, data.limits.totalCostLimit)}%`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                  {data.limits.concurrencyLimit !== undefined && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">
-                        {t("usageLog.limits.concurrency", {
-                          defaultValue: "并发限制",
-                        })}
-                      </span>
-                      <span className="font-medium">
-                        {data.limits.concurrencyLimit}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* 关联账户卡片 */}
-            {data.accounts && (
-              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500">
-                    <Users size={18} />
-                  </div>
-                  <h3 className="font-medium text-foreground">
-                    {t("usageLog.accounts.title", { defaultValue: "关联账户" })}
-                  </h3>
-                </div>
-                <div className="space-y-3">
-                  {data.accounts.claudeAccountId && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Claude</span>
-                      <span className="font-mono text-xs bg-muted px-2 py-1 rounded">
-                        {data.accounts.claudeAccountId}
-                      </span>
-                    </div>
-                  )}
-                  {data.accounts.geminiAccountId && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">Gemini</span>
-                      <span className="font-mono text-xs bg-muted px-2 py-1 rounded">
-                        {data.accounts.geminiAccountId}
-                      </span>
-                    </div>
-                  )}
-                  {data.accounts.openaiAccountId && (
-                    <div className="flex justify-between text-sm">
-                      <span className="text-muted-foreground">OpenAI</span>
-                      <span className="font-mono text-xs bg-muted px-2 py-1 rounded">
-                        {data.accounts.openaiAccountId}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
           </div>
         )}
       </div>

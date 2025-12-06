@@ -52,6 +52,7 @@ export const providerPresets: ProviderPreset[] = [
     settingsConfig: {
       env: {
         ANTHROPIC_AUTH_TOKEN: "",
+        ANTHROPIC_BASE_URL: "https://claude.kun8.vip/api",
       },
     },
     category: "third_party",
