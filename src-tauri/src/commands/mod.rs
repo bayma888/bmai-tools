@@ -10,6 +10,7 @@ mod prompt;
 mod provider;
 mod settings;
 pub mod skill;
+mod usage_log;
 
 pub use config::*;
 pub use env::*;
@@ -21,3 +22,4 @@ pub use prompt::*;
 pub use provider::*;
 pub use settings::*;
 pub use skill::*;
+pub use usage_log::*;

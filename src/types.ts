@@ -126,6 +126,14 @@ export interface Settings {
   currentProviderCodex?: string;
   // 当前 Gemini 供应商 ID（优先于数据库 is_current）
   currentProviderGemini?: string;
+
+  // ===== 用量查询设置 =====
+  // 用量查询 API Key
+  usageLogApiKey?: string;
+  // 用量查询 Base URL（默认 https://claude.kun8.vip）
+  usageLogBaseUrl?: string;
+  // 用量查询周期（daily/monthly）
+  usageLogPeriod?: string;
 }
 
 // MCP 服务器连接参数（宽松：允许扩展字段）

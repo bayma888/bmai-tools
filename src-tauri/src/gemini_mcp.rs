@@ -40,6 +40,7 @@ fn write_json_value(path: &Path, value: &Value) -> Result<(), AppError> {
 }
 
 /// 读取 Gemini MCP 配置文件的完整 JSON 文本
+#[allow(dead_code)]
 pub fn read_mcp_json() -> Result<Option<String>, AppError> {
     let path = user_config_path();
     if !path.exists() {

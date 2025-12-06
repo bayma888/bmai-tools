@@ -44,10 +44,68 @@
   "usageLog": {
     "title": "用量查询",
     "description": "查看 API 用量和算力消耗统计",
-    "loading": "正在加载用量数据...",
-    "loadError": "加载失败",
-    "loadErrorDesc": "无法加载用量页面，该网站可能禁止嵌入显示",
-    "openInBrowser": "浏览器打开"
+    "loading": "正在查询用量数据...",
+    "refresh": "刷新数据",
+    "noProvider": "未选择供应商",
+    "usingProviderConfig": "使用当前供应商配置查询",
+    "noApiKey": "当前供应商未配置 API Key",
+    "noApiKeyTitle": "未配置 API Key",
+    "noApiKeyDescription": "请先在供应商配置中设置 API Key，用量查询将自动使用当前供应商的配置",
+    "config": {
+      "title": "查询配置",
+      "configured": "已配置 API Key",
+      "notConfigured": "请配置 API Key",
+      "apiKeyPlaceholder": "输入你的 API Key",
+      "period": "统计周期",
+      "daily": "日统计",
+      "monthly": "月统计",
+      "save": "保存配置",
+      "saved": "已保存",
+      "query": "查询用量"
+    },
+    "error": {
+      "title": "查询失败",
+      "unknown": "未知错误"
+    },
+    "empty": {
+      "title": "配置 API Key",
+      "description": "请在上方配置区域输入你的 API Key 以查询用量统计"
+    },
+    "info": {
+      "title": "基本信息",
+      "name": "名称",
+      "status": "状态",
+      "active": "启用",
+      "inactive": "禁用",
+      "createdAt": "创建时间",
+      "expiresAt": "过期时间"
+    },
+    "usage": {
+      "title": "使用量统计",
+      "requests": "请求次数",
+      "inputTokens": "输入 Token",
+      "outputTokens": "输出 Token",
+      "cacheCreate": "缓存创建",
+      "cacheRead": "缓存读取",
+      "totalTokens": "总 Token",
+      "totalCost": "总费用"
+    },
+    "limits": {
+      "title": "使用限制",
+      "dailyCost": "每日费用",
+      "totalCost": "总费用",
+      "concurrency": "并发限制"
+    },
+    "accounts": {
+      "title": "关联账户"
+    },
+    "modelStats": {
+      "title": "模型统计",
+      "input": "输入",
+      "output": "输出",
+      "cacheWrite": "缓存写",
+      "cacheRead": "缓存读"
+    }
   },
   "apiKeyInput": {
     "placeholder": "请输入API Key",

@@ -55,6 +55,17 @@ pub struct AppSettings {
     /// 当前 Gemini 供应商 ID（本地存储，优先于数据库 is_current）
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub current_provider_gemini: Option<String>,
+
+    // ===== 用量查询设置 =====
+    /// 用量查询 API Key
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub usage_log_api_key: Option<String>,
+    /// 用量查询 Base URL（默认 https://claude.kun8.vip）
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub usage_log_base_url: Option<String>,
+    /// 用量查询周期（daily/monthly）
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub usage_log_period: Option<String>,
 }
 
 fn default_show_in_tray() -> bool {
@@ -79,6 +90,9 @@ impl Default for AppSettings {
             current_provider_claude: None,
             current_provider_codex: None,
             current_provider_gemini: None,
+            usage_log_api_key: None,
+            usage_log_base_url: None,
+            usage_log_period: None,
         }
     }
 }

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -224,16 +225,22 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>{t("mcp.wizard.title")}</DialogTitle>
+      <DialogContent
+        className="max-w-2xl max-h-[90vh] flex flex-col"
+        zIndex="alert"
+        overlayClassName="bg-background/80"
+      >
+        <DialogHeader className="space-y-3 border-b-0 bg-transparent pb-0">
+          <DialogTitle className="text-lg font-semibold">
+            {t("mcp.wizard.title")}
+          </DialogTitle>
         </DialogHeader>
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {/* Hint */}
-          <div className="rounded-lg border border-border-active bg-blue-50 p-3  dark:bg-blue-900/20">
-            <p className="text-sm text-blue-800 dark:text-blue-200">
+          <div className="rounded-lg border border-border-default bg-gray-100/50 dark:bg-gray-800/50 p-3">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {t("mcp.wizard.hint")}
             </p>
           </div>
@@ -254,7 +261,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) =>
                       setWizardType(e.target.value as "stdio" | "http" | "sse")
                     }
-                    className="w-4 h-4 text-emerald-500 bg-white dark:bg-gray-800 border-border-default  focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:ring-2"
+                    className="w-4 h-4 accent-blue-500"
                   />
                   <span className="text-sm text-gray-900 dark:text-gray-100">
                     {t("mcp.wizard.typeStdio")}
@@ -268,7 +275,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) =>
                       setWizardType(e.target.value as "stdio" | "http" | "sse")
                     }
-                    className="w-4 h-4 text-emerald-500 bg-white dark:bg-gray-800 border-border-default  focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:ring-2"
+                    className="w-4 h-4 accent-blue-500"
                   />
                   <span className="text-sm text-gray-900 dark:text-gray-100">
                     {t("mcp.wizard.typeHttp")}
@@ -282,7 +289,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) =>
                       setWizardType(e.target.value as "stdio" | "http" | "sse")
                     }
-                    className="w-4 h-4 text-emerald-500 bg-white dark:bg-gray-800 border-border-default  focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:ring-2"
+                    className="w-4 h-4 accent-blue-500"
                   />
                   <span className="text-sm text-gray-900 dark:text-gray-100">
                     {t("mcp.wizard.typeSse")}
@@ -296,13 +303,13 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
               <label className="mb-1 block text-sm font-medium text-gray-900 dark:text-gray-100">
                 {t("mcp.form.title")} <span className="text-red-500">*</span>
               </label>
-              <input
+              <Input
                 type="text"
                 value={wizardTitle}
                 onChange={(e) => setWizardTitle(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder={t("mcp.form.titlePlaceholder")}
-                className="w-full rounded-lg border border-border-default px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/20  dark:bg-gray-800 dark:text-gray-100"
+                className="font-mono"
               />
             </div>
 
@@ -315,13 +322,13 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     {t("mcp.wizard.command")}{" "}
                     <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={wizardCommand}
                     onChange={(e) => setWizardCommand(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={t("mcp.wizard.commandPlaceholder")}
-                    className="w-full rounded-lg border border-border-default px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/20  dark:bg-gray-800 dark:text-gray-100"
+                    className="font-mono"
                   />
                 </div>
 
@@ -335,7 +342,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) => setWizardArgs(e.target.value)}
                     placeholder={t("mcp.wizard.argsPlaceholder")}
                     rows={3}
-                    className="w-full rounded-lg border border-border-default px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/20  dark:bg-gray-800 dark:text-gray-100 resize-y"
+                    className="w-full rounded-md border border-border-default bg-white dark:bg-gray-800 px-3 py-2 text-sm font-mono text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-y"
                   />
                 </div>
 
@@ -349,7 +356,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) => setWizardEnv(e.target.value)}
                     placeholder={t("mcp.wizard.envPlaceholder")}
                     rows={3}
-                    className="w-full rounded-lg border border-border-default px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/20  dark:bg-gray-800 dark:text-gray-100 resize-y"
+                    className="w-full rounded-md border border-border-default bg-white dark:bg-gray-800 px-3 py-2 text-sm font-mono text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-y"
                   />
                 </div>
               </>
@@ -364,13 +371,13 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     {t("mcp.wizard.url")}{" "}
                     <span className="text-red-500">*</span>
                   </label>
-                  <input
+                  <Input
                     type="text"
                     value={wizardUrl}
                     onChange={(e) => setWizardUrl(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={t("mcp.wizard.urlPlaceholder")}
-                    className="w-full rounded-lg border border-border-default px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/20  dark:bg-gray-800 dark:text-gray-100"
+                    className="font-mono"
                   />
                 </div>
 
@@ -384,7 +391,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) => setWizardHeaders(e.target.value)}
                     placeholder={t("mcp.wizard.headersPlaceholder")}
                     rows={3}
-                    className="w-full rounded-lg border border-border-default px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500/20  dark:bg-gray-800 dark:text-gray-100 resize-y"
+                    className="w-full rounded-md border border-border-default bg-white dark:bg-gray-800 px-3 py-2 text-sm font-mono text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-y"
                   />
                 </div>
               </>
@@ -397,11 +404,11 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
             wizardEnv ||
             wizardUrl ||
             wizardHeaders) && (
-            <div className="space-y-2 border-t border-border-default pt-4 ">
+            <div className="space-y-2 border-t border-border-default pt-4">
               <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">
                 {t("mcp.wizard.preview")}
               </h3>
-              <pre className="overflow-x-auto rounded-lg bg-gray-50 p-3 text-xs font-mono text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+              <pre className="overflow-x-auto rounded-lg bg-gray-100 dark:bg-gray-800 p-3 text-xs font-mono text-gray-700 dark:text-gray-300">
                 {preview}
               </pre>
             </div>
@@ -409,11 +416,11 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
         </div>
 
         {/* Footer */}
-        <DialogFooter className="gap-3 pt-4">
-          <Button type="button" variant="ghost" onClick={handleClose}>
+        <DialogFooter className="flex gap-2 border-t-0 bg-transparent pt-2 sm:justify-end">
+          <Button variant="outline" onClick={handleClose}>
             {t("common.cancel")}
           </Button>
-          <Button type="button" variant="mcp" onClick={handleApply}>
+          <Button variant="mcp" onClick={handleApply}>
             <Save className="h-4 w-4" />
             {t("mcp.wizard.apply")}
           </Button>

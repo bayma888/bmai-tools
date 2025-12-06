@@ -328,6 +328,7 @@ pub fn set_enabled_flag_for(
 }
 
 /// 将 config.json 中 enabled==true 的项投影写入 ~/.claude.json
+#[allow(dead_code)]
 pub fn sync_enabled_to_claude(config: &MultiAppConfig) -> Result<(), AppError> {
     let enabled = collect_enabled_servers(&config.mcp.claude);
     crate::claude_mcp::set_mcp_servers_map(&enabled)
@@ -335,6 +336,7 @@ pub fn sync_enabled_to_claude(config: &MultiAppConfig) -> Result<(), AppError> {
 
 /// 从 ~/.claude.json 导入 mcpServers 到统一结构（v3.7.0+）
 /// 已存在的服务器将启用 Claude 应用，不覆盖其他字段和应用状态
+#[allow(dead_code)]
 pub fn import_from_claude(config: &mut MultiAppConfig) -> Result<usize, AppError> {
     use crate::app_config::{McpApps, McpServer};
 
@@ -698,6 +700,7 @@ pub fn sync_enabled_to_codex(config: &MultiAppConfig) -> Result<(), AppError> {
 }
 
 /// 将 config.json 中 enabled==true 的项投影写入 ~/.gemini/settings.json
+#[allow(dead_code)]
 pub fn sync_enabled_to_gemini(config: &MultiAppConfig) -> Result<(), AppError> {
     let enabled = collect_enabled_servers(&config.mcp.gemini);
     crate::gemini_mcp::set_mcp_servers_map(&enabled)
@@ -705,6 +708,7 @@ pub fn sync_enabled_to_gemini(config: &MultiAppConfig) -> Result<(), AppError> {
 
 /// 从 ~/.gemini/settings.json 导入 mcpServers 到统一结构（v3.7.0+）
 /// 已存在的服务器将启用 Gemini 应用，不覆盖其他字段和应用状态
+#[allow(dead_code)]
 pub fn import_from_gemini(config: &mut MultiAppConfig) -> Result<usize, AppError> {
     use crate::app_config::{McpApps, McpServer};
 
@@ -774,6 +778,7 @@ pub fn import_from_gemini(config: &mut MultiAppConfig) -> Result<usize, AppError
 // ============================================================================
 
 /// 将单个 MCP 服务器同步到 Claude live 配置
+#[allow(dead_code)]
 pub fn sync_single_server_to_claude(
     _config: &MultiAppConfig,
     id: &str,
@@ -791,6 +796,7 @@ pub fn sync_single_server_to_claude(
 }
 
 /// 从 Claude live 配置中移除单个 MCP 服务器
+#[allow(dead_code)]
 pub fn remove_server_from_claude(id: &str) -> Result<(), AppError> {
     // 读取现有的 MCP 配置
     let mut current = crate::claude_mcp::read_mcp_servers_map()?;
@@ -1117,6 +1123,7 @@ pub fn remove_server_from_codex(id: &str) -> Result<(), AppError> {
 }
 
 /// 将单个 MCP 服务器同步到 Gemini live 配置
+#[allow(dead_code)]
 pub fn sync_single_server_to_gemini(
     _config: &MultiAppConfig,
     id: &str,
@@ -1134,6 +1141,7 @@ pub fn sync_single_server_to_gemini(
 }
 
 /// 从 Gemini live 配置中移除单个 MCP 服务器
+#[allow(dead_code)]
 pub fn remove_server_from_gemini(id: &str) -> Result<(), AppError> {
     // 读取现有的 MCP 配置
     let mut current = crate::gemini_mcp::read_mcp_servers_map()?;

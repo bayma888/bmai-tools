@@ -13,8 +13,6 @@ use serde::Deserialize;
 use serde_json::Value;
 
 use crate::app_config::AppType;
-use crate::codex_config::write_codex_live_atomic;
-use crate::config::{get_claude_settings_path, write_json_file};
 use crate::error::AppError;
 use crate::provider::{Provider, UsageResult};
 use crate::services::mcp::McpService;
@@ -329,36 +327,6 @@ impl ProviderService {
         .await
     }
 
-    #[allow(dead_code)]
-    fn write_codex_live(provider: &Provider) -> Result<(), AppError> {
-        let settings = provider
-            .settings_config
-            .as_object()
-            .ok_or_else(|| AppError::Config("Codex 配置必须是 JSON 对象".into()))?;
-        let auth = settings
-            .get("auth")
-            .ok_or_else(|| AppError::Config(format!("供应商 {} 缺少 auth 配置", provider.id)))?;
-        if !auth.is_object() {
-            return Err(AppError::Config(format!(
-                "供应商 {} 的 auth 必须是对象",
-                provider.id
-            )));
-        }
-        let cfg_text = settings.get("config").and_then(Value::as_str);
-
-        write_codex_live_atomic(auth, cfg_text)?;
-        Ok(())
-    }
-
-    #[allow(dead_code)]
-    fn write_claude_live(provider: &Provider) -> Result<(), AppError> {
-        let settings_path = get_claude_settings_path();
-        let mut content = provider.settings_config.clone();
-        let _ = normalize_claude_models_in_value(&mut content);
-        write_json_file(&settings_path, &content)?;
-        Ok(())
-    }
-
     pub(crate) fn write_gemini_live(provider: &Provider) -> Result<(), AppError> {
         write_gemini_live(provider)
     }
@@ -558,14 +526,6 @@ impl ProviderService {
         }
     }
 
-    #[allow(dead_code)]
-    fn app_not_found(app_type: &AppType) -> AppError {
-        AppError::localized(
-            "provider.app_not_found",
-            format!("应用类型不存在: {app_type:?}"),
-            format!("App type not found: {app_type:?}"),
-        )
-    }
 }
 
 /// Normalize Claude model keys in a JSON value

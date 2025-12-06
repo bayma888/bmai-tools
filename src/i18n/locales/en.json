@@ -44,10 +44,68 @@
   "usageLog": {
     "title": "Usage Log",
     "description": "View API usage and computing power statistics",
-    "loading": "Loading usage data...",
-    "loadError": "Load Failed",
-    "loadErrorDesc": "Unable to load usage page, the website may block embedding",
-    "openInBrowser": "Open in Browser"
+    "loading": "Querying usage data...",
+    "refresh": "Refresh",
+    "noProvider": "No provider selected",
+    "usingProviderConfig": "Using current provider config",
+    "noApiKey": "Current provider has no API Key configured",
+    "noApiKeyTitle": "No API Key Configured",
+    "noApiKeyDescription": "Please configure the API Key in provider settings first. Usage query will automatically use current provider's config",
+    "config": {
+      "title": "Query Config",
+      "configured": "API Key configured",
+      "notConfigured": "Please configure API Key",
+      "apiKeyPlaceholder": "Enter your API Key",
+      "period": "Period",
+      "daily": "Daily",
+      "monthly": "Monthly",
+      "save": "Save Config",
+      "saved": "Saved",
+      "query": "Query Usage"
+    },
+    "error": {
+      "title": "Query Failed",
+      "unknown": "Unknown error"
+    },
+    "empty": {
+      "title": "Configure API Key",
+      "description": "Please enter your API Key in the config section above to query usage statistics"
+    },
+    "info": {
+      "title": "Basic Info",
+      "name": "Name",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At",
+      "expiresAt": "Expires At"
+    },
+    "usage": {
+      "title": "Usage Statistics",
+      "requests": "Requests",
+      "inputTokens": "Input Tokens",
+      "outputTokens": "Output Tokens",
+      "cacheCreate": "Cache Create",
+      "cacheRead": "Cache Read",
+      "totalTokens": "Total Tokens",
+      "totalCost": "Total Cost"
+    },
+    "limits": {
+      "title": "Usage Limits",
+      "dailyCost": "Daily Cost",
+      "totalCost": "Total Cost",
+      "concurrency": "Concurrency Limit"
+    },
+    "accounts": {
+      "title": "Linked Accounts"
+    },
+    "modelStats": {
+      "title": "Model Statistics",
+      "input": "Input",
+      "output": "Output",
+      "cacheWrite": "Cache Write",
+      "cacheRead": "Cache Read"
+    }
   },
   "apiKeyInput": {
     "placeholder": "Enter API Key",

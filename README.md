@@ -5,7 +5,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-3.8.0-blue.svg)](https://github.com/bayma888/bmai-tools/releases)
+[![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](https://github.com/bayma888/bmai-tools/releases)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tauri](https://img.shields.io/badge/Tauri-2.8.2-blue.svg)](https://tauri.app/)
 [![React](https://img.shields.io/badge/React-18.2.0-61dafb.svg)](https://reactjs.org/)
@@ -69,7 +69,6 @@
 ### 🚀 其他特性
 - **系统托盘** - 快速切换供应商,无需打开主窗口
 - **自动启动** - 开机自动启动(可选)
-- **深度链接** - 通过 `ccswitch://` 协议导入配置
 - **环境变量检测** - 自动识别和解决配置冲突
 - **暗色模式** - 优雅的暗色主题设计
 - **跨平台** - 支持 Windows、macOS、Linux
@@ -84,13 +83,13 @@
 # https://github.com/bayma888/bmai-tools/releases/latest
 
 # 或下载便携版 ZIP
-BMAI-Tools-v3.8.0-Windows-Portable.zip
+BMAI-Tools-Windows-Portable.zip
 ```
 
 ### macOS
 ```bash
 # 下载 .tar.gz 或 .zip
-BMAI-Tools-v3.8.0-macOS.tar.gz
+BMAI-Tools-macOS.tar.gz
 ```
 
 ---
@@ -330,20 +329,6 @@ C:\Users\<用户名>\.BMAI-Tools\settings.json
 
 查看 [CHANGELOG.md](CHANGELOG.md) 了解详细的版本历史。
 
-### 最新版本 v3.8.0 (2025-11-28)
-
-**重大更新:**
-- 🗄️ 持久化架构升级 - SQLite + JSON 双层存储
-- 🎨 全新 UI 设计 - 布局重构,统一组件样式
-- 🇯🇵 日语支持 - 新增日语界面
-
-**新功能:**
-- Skills 递归扫描 - 支持多级目录
-- Provider 图标 - 预设默认图标,自定义颜色
-- 自动启动 - 开机启动功能
-- 预设 - 新增合作伙伴
-
-查看完整更新日志: [docs/release-note-v3.8.0-zh.md](docs/release-note-v3.8.0-zh.md)
 
 ---
 
